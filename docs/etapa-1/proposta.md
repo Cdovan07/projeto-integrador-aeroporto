@@ -10,19 +10,6 @@
 **Tipo:** Sistema de gerenciamento desenvolvido utilizando Programação Orientada a Objetos em Java.
 
 ## 2. Descrição do Sistema
-=======
-Sistema de Gerenciamento de Aeroporto
-
-1. Identificação do Sistema
-
-Nome: Sistema de Gerenciamento de Aeroporto
-
-Área: Aviação e gerenciamento aeroportuário
-
-Tipo: Sistema de gerenciamento desenvolvido utilizando Programação Orientada a Objetos em Java.
-
-2. Descrição do Sistema
->>>>>>> ac73c458333dc2fd1c6d438ba6f425dc049113dd
 
 O Sistema de Gerenciamento de Aeroporto tem como objetivo auxiliar no gerenciamento das principais operações relacionadas aos passageiros, voos e embarques realizados em um aeroporto.
 
@@ -30,17 +17,12 @@ O sistema permitirá o cadastro e gerenciamento de passageiros, funcionários, c
 
 A proposta é desenvolver uma aplicação que represente, de forma simplificada, o funcionamento de algumas operações de um aeroporto, utilizando conceitos de Programação Orientada a Objetos.
 
-<<<<<<< HEAD
 ## 3. Objetivo
-=======
-3. Objetivo
->>>>>>> ac73c458333dc2fd1c6d438ba6f425dc049113dd
 
 O objetivo principal do sistema é organizar e facilitar o gerenciamento das informações relacionadas aos voos e passageiros, permitindo que funcionários e administradores realizem operações de gerenciamento e que passageiros possam consultar suas informações de viagem.
 
 O sistema também será utilizado como aplicação prática dos conceitos de Programação Orientada a Objetos estudados na disciplina.
 
-<<<<<<< HEAD
 ## 4. Principais Funcionalidades
 
 O sistema deverá permitir:
@@ -75,48 +57,11 @@ O funcionário será responsável por operações relacionadas ao gerenciamento 
 O administrador terá funções de gerenciamento do sistema, podendo administrar funcionários, usuários, companhias aéreas, voos, aeronaves e portões de embarque.
 
 ## 6. Escopo
-=======
-4. Principais Funcionalidades
-
-O sistema deverá permitir:
-
-- Cadastrar e consultar passageiros;
-- Cadastrar e gerenciar funcionários;
-- Cadastrar companhias aéreas;
-- Cadastrar e gerenciar aeronaves;
-- Cadastrar e gerenciar voos;
-- Cadastrar e gerenciar portões de embarque;
-- Realizar reservas de voos;
-- Consultar reservas;
-- Cancelar reservas;
-- Realizar check-in;
-- Cancelar check-in;
-- Emitir cartão de embarque;
-- Consultar informações do cartão de embarque;
-- Consultar informações dos voos.
-
-5. Atores
-
-Passageiro
-
-O passageiro poderá consultar voos, realizar e consultar reservas, cancelar reservas, realizar check-in e consultar seu cartão de embarque.
-
-Funcionário
-
-O funcionário será responsável por operações relacionadas ao gerenciamento do aeroporto, podendo cadastrar passageiros, gerenciar voos, aeronaves, portões e reservas, além de realizar check-in e emitir cartões de embarque.
-
-Administrador
-
-O administrador terá funções de gerenciamento do sistema, podendo administrar funcionários, usuários, companhias aéreas, voos, aeronaves e portões de embarque.
-
-6. Escopo
->>>>>>> ac73c458333dc2fd1c6d438ba6f425dc049113dd
 
 O sistema será desenvolvido como uma aplicação acadêmica, com foco no gerenciamento das informações e operações básicas de um aeroporto.
 
 Serão contemplados:
 
-<<<<<<< HEAD
 * Passageiros;
 * Funcionários;
 * Administradores;
@@ -127,8 +72,6 @@ Serão contemplados:
 * Reservas;
 * Check-in;
 * Cartões de embarque.
-
-O sistema não terá como objetivo reproduzir todos os processos existentes em um aeroporto real, sendo limitado às funcionalidades necessárias para demonstrar os conceitos de Programação Orientada a Objetos.
 
 ## 7. Funcionalidades Fora do Escopo
 
@@ -144,35 +87,7 @@ Não serão implementados nesta versão:
 * Emissão oficial de documentos;
 * Sistemas reais de controle de bagagem.
 
-## 8. Justificativa
-=======
-- Passageiros;
-- Funcionários;
-- Administradores;
-- Companhias aéreas;
-- Aeronaves;
-- Voos;
-- Portões de embarque;
-- Reservas;
-- Check-in;
-- Cartões de embarque.
-
-7. Funcionalidades Fora do Escopo
-
-Não serão implementados nesta versão:
-
-- Controle de tráfego aéreo;
-- Sistemas de radar;
-- Rastreamento de aeronaves em tempo real;
-- Sistemas de segurança física;
-- Controle de imigração;
-- Pagamentos reais;
-- Integração com sistemas reais de companhias aéreas;
-- Emissão oficial de documentos;
-- Sistemas reais de controle de bagagem.
-
-8. Justificativa Técnica
->>>>>>> ac73c458333dc2fd1c6d438ba6f425dc049113dd
+## 8. Justificativa Técnica
 
 O domínio aeroportuário é adequado para o desenvolvimento de uma aplicação orientada a objetos por possuir diversas entidades que podem ser representadas como classes, como Pessoa, Passageiro, Funcionário, Administrador, Voo, Aeronave, Companhia Aérea, Reserva, Check-in e Portão de Embarque.
 
@@ -180,20 +95,9 @@ A relação entre essas entidades também permite representar conceitos importan
 
 Dessa forma, o sistema possibilita aplicar conceitos de classes, objetos, atributos, métodos, encapsulamento, herança, polimorfismo e relacionamentos entre objetos em um problema com características próximas de uma aplicação real.
 
-<<<<<<< HEAD
 ## 9. Tecnologias
 
-A implementação do sistema será realizada utilizando:
-
-* Linguagem Java;
+* Java;
 * Programação Orientada a Objetos;
 * UML para modelagem;
 * Git e GitHub para controle de versão.
-=======
-9. Tecnologias
-
-- Java;
-- Programação Orientada a Objetos;
-- UML para modelagem;
-- Git e GitHub para controle de versão.
->>>>>>> ac73c458333dc2fd1c6d438ba6f425dc049113dd
