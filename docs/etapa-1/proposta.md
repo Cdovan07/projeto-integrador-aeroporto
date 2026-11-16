@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Sistema de Gerenciamento de Aeroporto
 
 ## 1. Identificação do Sistema

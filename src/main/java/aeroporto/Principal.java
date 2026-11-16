@@ -140,5 +140,25 @@ public class Principal {
 
         pessoa1.exibirTipo();
         pessoa2.exibirTipo();
+
+        System.out.println("\n=== TESTE DE ARQUIVOS ===");
+
+        SistemaAeroporto sistema = new SistemaAeroporto();
+
+        sistema.cadastrarPassageiro(passageiro);
+        sistema.cadastrarVoo(voo);
+        sistema.cadastrarReserva(reserva);
+
+        ArquivoReservas arquivo = new ArquivoReservas();
+
+        arquivo.salvarReservas(sistema.listarReservas());
+
+        System.out.println("Reservas salvas no arquivo.");
+
+        System.out.println("\nReservas lidas do arquivo:");
+
+        for (String linha : arquivo.lerReservas()) {
+            System.out.println(linha);
+        }
     }
 }
