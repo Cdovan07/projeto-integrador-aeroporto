@@ -2,7 +2,19 @@ package aeroporto;
 
 import java.time.LocalDateTime;
 
+/**
+ * Classe principal do sistema de gerenciamento de aeroporto.
+ * Executa demonstrações das funcionalidades implementadas no projeto.
+ */
 public class Principal {
+
+    /**
+     * Ponto de entrada da aplicação.
+     * Cria objetos, demonstra conceitos de orientação a objetos,
+     * executa operações do sistema e testa a persistência de reservas.
+     *
+     * @param args argumentos recebidos na execução do programa
+     */
     public static void main(String[] args) {
 
         CompanhiaAerea companhia = new CompanhiaAerea(

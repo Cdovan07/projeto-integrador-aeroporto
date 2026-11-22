@@ -2,6 +2,7 @@ package aeroporto;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDateTime;
 
 public class SistemaAeroportoTest {
 
@@ -78,4 +79,121 @@ public class SistemaAeroportoTest {
                 () -> sistema.cadastrarPassageiro(passageiro)
         );
     }
+
+    @Test
+    void deveConfirmarReservaPendente() {
+        Reserva reserva = new Reserva(
+                "R001",
+                LocalDateTime.now(),
+                "Pendente",
+                null,
+                null
+        );
+
+        reserva.confirmar();
+
+        assertEquals("Confirmada", reserva.getStatus());
+    }
+
+    @Test
+    void deveCancelarReservaPendente() {
+        Reserva reserva = new Reserva(
+                "R002",
+                LocalDateTime.now(),
+                "Pendente",
+                null,
+                null
+        );
+
+        reserva.cancelar();
+
+        assertEquals("Cancelada", reserva.getStatus());
+    }
+
+    @Test
+    void deveCancelarReservaConfirmada() {
+        Reserva reserva = new Reserva(
+                "R003",
+                LocalDateTime.now(),
+                "Confirmada",
+                null,
+                null
+        );
+
+        reserva.cancelar();
+
+        assertEquals("Cancelada", reserva.getStatus());
+    }
+
+    @Test
+    void naoDeveConfirmarReservaCancelada() {
+        Reserva reserva = new Reserva(
+                "R004",
+                LocalDateTime.now(),
+                "Cancelada",
+                null,
+                null
+        );
+
+        assertThrows(
+                IllegalStateException.class,
+                () -> reserva.confirmar()
+        );
+    }
+
+
+    @Test
+    void deveNotificarPassageiroQuandoStatusDoVooMudar() {
+        Voo voo = new Voo(
+                "LA123",
+                "Recife",
+                "Sao Paulo",
+                LocalDateTime.now(),
+                "Programado"
+        );
+
+        NotificadorPassageiro notificador =
+                new NotificadorPassageiro("Ana");
+
+        voo.adicionarObservador(notificador);
+
+        assertDoesNotThrow(() -> voo.alterarStatus("Cancelado"));
+        assertEquals("Cancelado", voo.getStatus());
+    }
+
+    @Test
+    void devePermitirRemoverObservador() {
+        Voo voo = new Voo(
+                "LA456",
+                "Recife",
+                "Salvador",
+                LocalDateTime.now(),
+                "Programado"
+        );
+
+        NotificadorPassageiro notificador =
+                new NotificadorPassageiro("Maria");
+
+        voo.adicionarObservador(notificador);
+        voo.removerObservador(notificador);
+
+        assertDoesNotThrow(() -> voo.alterarStatus("Atrasado"));
+        assertEquals("Atrasado", voo.getStatus());
+    }
+
+    @Test
+    void naoDeveAdicionarObservadorNulo() {
+        Voo voo = new Voo(
+                "LA789",
+                "Recife",
+                "Fortaleza",
+                LocalDateTime.now(),
+                "Programado"
+        );
+
+        voo.adicionarObservador(null);
+
+        assertDoesNotThrow(() -> voo.alterarStatus("Cancelado"));
+    }
+
 }
