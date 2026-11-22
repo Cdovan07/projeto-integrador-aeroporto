@@ -14,17 +14,33 @@ public class ArquivoReservas {
 
     private static final Path CAMINHO = Path.of("dados", "reservas.txt");
 
+    private final Path caminho;
+
     /**
-     * Salva as reservas cadastradas no arquivo reservas.txt.
-     * Cada linha contém o código da reserva, CPF do passageiro,
-     * código do voo e status da reserva.
+     * Cria o gerenciador utilizando o caminho padrão do arquivo.
+     */
+    public ArquivoReservas() {
+        this.caminho = CAMINHO;
+    }
+
+    /**
+     * Cria o gerenciador utilizando um caminho específico.
+     *
+     * @param caminho caminho do arquivo de reservas
+     */
+    ArquivoReservas(Path caminho) {
+        this.caminho = caminho;
+    }
+
+    /**
+     * Salva as reservas cadastradas no arquivo.
      *
      * @param reservas lista de reservas que será salva
      * @throws RuntimeException se ocorrer um erro durante a gravação
      */
     public void salvarReservas(List<Reserva> reservas) {
         try {
-            Files.createDirectories(CAMINHO.getParent());
+            Files.createDirectories(caminho.getParent());
 
             List<String> linhas = reservas.stream()
                     .map(reserva -> reserva.getCodigo() + ";" +
@@ -34,7 +50,7 @@ public class ArquivoReservas {
                     .toList();
 
             Files.write(
-                    CAMINHO,
+                    caminho,
                     linhas,
                     StandardCharsets.UTF_8,
                     StandardOpenOption.CREATE,
@@ -55,11 +71,11 @@ public class ArquivoReservas {
      */
     public List<String> lerReservas() {
         try {
-            if (!Files.exists(CAMINHO)) {
+            if (!Files.exists(caminho)) {
                 return List.of();
             }
 
-            return Files.readAllLines(CAMINHO, StandardCharsets.UTF_8);
+            return Files.readAllLines(caminho, StandardCharsets.UTF_8);
 
         } catch (IOException e) {
             throw new RuntimeException("Erro ao ler as reservas.", e);

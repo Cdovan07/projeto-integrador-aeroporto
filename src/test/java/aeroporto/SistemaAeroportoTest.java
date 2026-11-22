@@ -3,8 +3,16 @@ package aeroporto;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class SistemaAeroportoTest {
+
+        @TempDir
+Path pastaTemporaria;
 
     @Test
     void deveCadastrarPassageiro() {
@@ -143,23 +151,28 @@ public class SistemaAeroportoTest {
 
 
     @Test
-    void deveNotificarPassageiroQuandoStatusDoVooMudar() {
-        Voo voo = new Voo(
-                "LA123",
-                "Recife",
-                "Sao Paulo",
-                LocalDateTime.now(),
-                "Programado"
-        );
+void deveNotificarPassageiroQuandoStatusDoVooMudar() {
+    Voo voo = new Voo(
+            "LA123",
+            "Recife",
+            "Sao Paulo",
+            LocalDateTime.now(),
+            "Programado"
+    );
 
-        NotificadorPassageiro notificador =
-                new NotificadorPassageiro("Ana");
+    List<String> notificacoes = new java.util.ArrayList<>();
 
-        voo.adicionarObservador(notificador);
+    ObservadorVoo observador = (codigo, status) ->
+            notificacoes.add(codigo + ";" + status);
 
-        assertDoesNotThrow(() -> voo.alterarStatus("Cancelado"));
-        assertEquals("Cancelado", voo.getStatus());
-    }
+    voo.adicionarObservador(observador);
+
+    voo.alterarStatus("Cancelado");
+
+    assertEquals(1, notificacoes.size());
+    assertEquals("LA123;Cancelado", notificacoes.get(0));
+    assertEquals("Cancelado", voo.getStatus());
+}
 
     @Test
     void devePermitirRemoverObservador() {
@@ -196,4 +209,122 @@ public class SistemaAeroportoTest {
         assertDoesNotThrow(() -> voo.alterarStatus("Cancelado"));
     }
 
+    @Test
+void naoDeveConfirmarReservaConfirmada() {
+    Reserva reserva = new Reserva(
+            "R005",
+            LocalDateTime.now(),
+            "Confirmada",
+            null,
+            null
+    );
+
+    assertThrows(
+            IllegalStateException.class,
+            () -> reserva.confirmar()
+    );
+}
+
+@Test
+void naoDeveCancelarReservaCancelada() {
+    Reserva reserva = new Reserva(
+            "R006",
+            LocalDateTime.now(),
+            "Cancelada",
+            null,
+            null
+    );
+
+    assertThrows(
+            IllegalStateException.class,
+            () -> reserva.cancelar()
+    );
+}
+
+@Test
+void naoDeveCriarReservaComStatusInvalido() {
+    assertThrows(
+            IllegalArgumentException.class,
+            () -> new Reserva(
+                    "R007",
+                    LocalDateTime.now(),
+                    "Invalida",
+                    null,
+                    null
+            )
+    );
+}
+
+@Test
+void deveSalvarReservasEmArquivo() {
+    ArquivoReservas arquivo = new ArquivoReservas(
+            pastaTemporaria.resolve("reservas.txt")
+    );
+
+    Passageiro passageiro = new Passageiro(
+            "Ana",
+            "12345678900",
+            "ana@email.com",
+            "81999999999",
+            "BR123456"
+    );
+
+    Voo voo = new Voo(
+            "LA123",
+            "Recife",
+            "Sao Paulo",
+            LocalDateTime.now(),
+            "Programado"
+    );
+
+    Reserva reserva = new Reserva(
+            "R010",
+            LocalDateTime.now(),
+            "Pendente",
+            passageiro,
+            voo
+    );
+
+    arquivo.salvarReservas(List.of(reserva));
+
+    List<String> linhas = arquivo.lerReservas();
+
+    assertEquals(1, linhas.size());
+    assertEquals("R010;12345678900;LA123;Pendente", linhas.get(0));
+}
+
+@Test
+void deveRetornarListaVaziaQuandoArquivoNaoExistir() {
+    ArquivoReservas arquivo = new ArquivoReservas(
+            pastaTemporaria.resolve("inexistente.txt")
+    );
+
+    assertTrue(arquivo.lerReservas().isEmpty());
+}
+@Test
+void deveLancarErroQuandoTentarLerUmDiretorio() {
+    Path diretorio = pastaTemporaria.resolve("diretorio");
+
+    assertDoesNotThrow(() -> Files.createDirectory(diretorio));
+
+    ArquivoReservas arquivo = new ArquivoReservas(diretorio);
+
+    assertThrows(
+            RuntimeException.class,
+            () -> arquivo.lerReservas()
+    );
+}
+@Test
+void deveLancarErroQuandoTentarSalvarEmUmDiretorio() {
+    Path diretorio = pastaTemporaria.resolve("diretorio");
+
+    assertDoesNotThrow(() -> Files.createDirectory(diretorio));
+
+    ArquivoReservas arquivo = new ArquivoReservas(diretorio);
+
+    assertThrows(
+            RuntimeException.class,
+            () -> arquivo.salvarReservas(List.of())
+    );
+}
 }
