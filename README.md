@@ -164,4 +164,6 @@ O projeto possui testes unitários que verificam:
 - Remoção de observadores.
 - Impedimento de cadastro de observadores nulos.
 
-Atualmente, os 11 testes automatizados são executados com sucesso utilizando Maven e JUnit 5.
+O projeto possui 18 testes automatizados utilizando JUnit 5, cobrindo funcionalidades de cadastro de passageiros, gerenciamento de reservas, padrões de projeto State e Observer, persistência em arquivos e tratamento de exceções.
+
+Todos os 18 testes foram executados com sucesso, sem falhas ou erros.
