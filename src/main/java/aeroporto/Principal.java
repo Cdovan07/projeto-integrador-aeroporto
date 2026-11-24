@@ -1,140 +1,339 @@
+
 package aeroporto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Scanner;
 
-/**
- * Classe principal do sistema de gerenciamento de aeroporto.
- * Executa demonstrações das funcionalidades implementadas no projeto.
- */
 public class Principal {
 
-    /**
-     * Ponto de entrada da aplicação.
-     * Cria objetos, demonstra conceitos de orientação a objetos,
-     * executa operações do sistema e testa a persistência de reservas.
-     *
-     * @param args argumentos recebidos na execução do programa
-     */
+    private static final Scanner entrada = new Scanner(System.in);
+    private static final SistemaAeroporto sistema = new SistemaAeroporto();
+
     public static void main(String[] args) {
 
-        CompanhiaAerea companhia = new CompanhiaAerea(
-                "LA",
-                "LATAM",
-                "12345678000100"
-        );
+        int opcao;
 
-        Aeronave aeronave = new Aeronave(
-                "A001",
-                "Airbus A320",
-                180,
-                "Disponível"
-        );
+        do {
+            System.out.println("\n================================");
+            System.out.println("   SISTEMA DE GERENCIAMENTO");
+            System.out.println("          AEROPORTO");
+            System.out.println("================================");
+            System.out.println("1 - Cadastrar passageiro");
+            System.out.println("2 - Listar passageiros");
+            System.out.println("3 - Cadastrar voo");
+            System.out.println("4 - Listar voos");
+            System.out.println("5 - Criar reserva");
+            System.out.println("6 - Listar reservas");
+            System.out.println("7 - Confirmar reserva");
+            System.out.println("8 - Cancelar reserva");
+            System.out.println("9 - Excluir passageiro");
+            System.out.println("10 - Excluir voo");
+            System.out.println("11 - Excluir reserva");
+            System.out.println("12 - Demonstracao de POO");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opcao: ");
 
-        PortaoEmbarque portao = new PortaoEmbarque(
-                10,
-                "Terminal 1",
-                "Fechado"
-        );
+            opcao = lerInteiro();
+
+            try {
+                switch (opcao) {
+                    case 1:
+                        cadastrarPassageiro();
+                        break;
+                    case 2:
+                        listarPassageiros();
+                        break;
+                    case 3:
+                        cadastrarVoo();
+                        break;
+                    case 4:
+                        listarVoos();
+                        break;
+                    case 5:
+                        criarReserva();
+                        break;
+                    case 6:
+                        listarReservas();
+                        break;
+                    case 7:
+                        confirmarReserva();
+                        break;
+                    case 8:
+                        cancelarReserva();
+                        break;
+                    case 9:
+                        excluirPassageiro();
+                        break;
+                    case 10:
+                        excluirVoo();
+                        break;
+                    case 11:
+                        excluirReserva();
+                        break;
+                    case 12:
+                        demonstrarPOO();
+                        break;
+                    case 0:
+                        System.out.println("Sistema encerrado.");
+                        break;
+                    default:
+                        System.out.println("Opcao invalida.");
+                }
+            } catch (Exception e) {
+                System.out.println("Erro: " + e.getMessage());
+            }
+
+        } while (opcao != 0);
+
+        entrada.close();
+    }
+
+    private static int lerInteiro() {
+        while (!entrada.hasNextInt()) {
+            System.out.print("Digite um numero valido: ");
+            entrada.nextLine();
+        }
+
+        int valor = entrada.nextInt();
+        entrada.nextLine();
+
+        return valor;
+    }
+
+    private static void cadastrarPassageiro() {
+
+        System.out.println("\n=== CADASTRAR PASSAGEIRO ===");
+
+        System.out.print("Nome: ");
+        String nome = entrada.nextLine();
+
+        System.out.print("CPF: ");
+        String cpf = entrada.nextLine();
+
+        System.out.print("Email: ");
+        String email = entrada.nextLine();
+
+        System.out.print("Telefone: ");
+        String telefone = entrada.nextLine();
+
+        System.out.print("Numero do passaporte: ");
+        String passaporte = entrada.nextLine();
 
         Passageiro passageiro = new Passageiro(
-                "Eduardo",
-                "12345678900",
-                "eduardo@email.com",
-                "81999999999",
-                "BR123456"
+                nome, cpf, email, telefone, passaporte
         );
 
-        Funcionario funcionario = new Funcionario(
-                "Carlos",
-                "98765432100",
-                "carlos@email.com",
-                "81988888888",
-                "F001",
-                "Atendente"
-        );
+        sistema.cadastrarPassageiro(passageiro);
 
-        Administrador administrador = new Administrador(
-                "Ana",
-                "11122233344",
-                "ana@email.com",
-                "81977777777",
-                "A001"
-        );
+        System.out.println("Passageiro cadastrado com sucesso!");
+    }
+
+    private static void listarPassageiros() {
+
+        System.out.println("\n=== PASSAGEIROS CADASTRADOS ===");
+
+        List<Passageiro> passageiros = sistema.listarPassageiros();
+
+        if (passageiros.isEmpty()) {
+            System.out.println("Nenhum passageiro cadastrado.");
+            return;
+        }
+
+        for (Passageiro passageiro : passageiros) {
+            System.out.println("Nome: " + passageiro.getNome());
+            System.out.println("CPF: " + passageiro.getCpf());
+            System.out.println("Email: " + passageiro.getEmail());
+            System.out.println("----------------------------");
+        }
+    }
+
+    private static void cadastrarVoo() {
+
+        System.out.println("\n=== CADASTRAR VOO ===");
+
+        System.out.print("Codigo do voo: ");
+        String codigo = entrada.nextLine();
+
+        System.out.print("Origem: ");
+        String origem = entrada.nextLine();
+
+        System.out.print("Destino: ");
+        String destino = entrada.nextLine();
+
+        System.out.print("Data e hora (AAAA-MM-DDTHH:MM): ");
+        LocalDateTime data = LocalDateTime.parse(entrada.nextLine());
 
         Voo voo = new Voo(
-                "LA123",
-                "Recife",
-                "São Paulo",
-                LocalDateTime.of(2026, 10, 2, 14, 30),
-                "Programado"
+                codigo, origem, destino, data, "Programado"
         );
 
-        voo.setCompanhiaAerea(companhia);
-        voo.setAeronave(aeronave);
-        voo.setPortaoEmbarque(portao);
+        sistema.cadastrarVoo(voo);
+
+        System.out.println("Voo cadastrado com sucesso!");
+    }
+
+    private static void listarVoos() {
+
+        System.out.println("\n=== VOOS CADASTRADOS ===");
+
+        List<Voo> voos = sistema.listarVoos();
+
+        if (voos.isEmpty()) {
+            System.out.println("Nenhum voo cadastrado.");
+            return;
+        }
+
+        for (Voo voo : voos) {
+            System.out.println(voo.consultarInformacoes());
+            System.out.println("Status: " + voo.getStatus());
+            System.out.println("----------------------------");
+        }
+    }
+
+    private static void criarReserva() {
+
+        System.out.println("\n=== CRIAR RESERVA ===");
+
+        System.out.print("CPF do passageiro: ");
+        String cpf = entrada.nextLine();
+
+        Passageiro passageiro = null;
+
+        for (Passageiro p : sistema.listarPassageiros()) {
+            if (p.getCpf().equals(cpf)) {
+                passageiro = p;
+                break;
+            }
+        }
+
+        if (passageiro == null) {
+            System.out.println("Passageiro nao encontrado.");
+            return;
+        }
+
+        System.out.print("Codigo do voo: ");
+        String codigoVoo = entrada.nextLine();
+
+        Voo voo = null;
+
+        for (Voo v : sistema.listarVoos()) {
+            if (v.getCodigo().equals(codigoVoo)) {
+                voo = v;
+                break;
+            }
+        }
+
+        if (voo == null) {
+            System.out.println("Voo nao encontrado.");
+            return;
+        }
+
+        System.out.print("Codigo da reserva: ");
+        String codigoReserva = entrada.nextLine();
 
         Reserva reserva = new Reserva(
-                "R001",
+                codigoReserva,
                 LocalDateTime.now(),
                 "Pendente",
                 passageiro,
                 voo
         );
 
-        CheckIn checkIn = new CheckIn(
-                "C001",
-                LocalDateTime.now(),
-                "Pendente",
-                reserva
-        );
+        sistema.cadastrarReserva(reserva);
 
-        CartaoEmbarque cartao = new CartaoEmbarque(
-                "CE001",
-                "12A",
-                "Grupo 1",
-                checkIn
-        );
+        System.out.println("Reserva criada com sucesso!");
+    }
 
-        System.out.println("=== TESTE DO SISTEMA ===");
+    private static void listarReservas() {
 
-        System.out.println("\nPassageiro:");
-        System.out.println(passageiro.getNome());
-        passageiro.exibirTipo();
+        System.out.println("\n=== RESERVAS CADASTRADAS ===");
 
-        System.out.println("\nFuncionário:");
-        System.out.println(funcionario.getNome());
-        funcionario.exibirTipo();
+        List<Reserva> reservas = sistema.listarReservas();
 
-        System.out.println("\nAdministrador:");
-        System.out.println(administrador.getNome());
-        administrador.exibirTipo();
+        if (reservas.isEmpty()) {
+            System.out.println("Nenhuma reserva cadastrada.");
+            return;
+        }
 
-        System.out.println("\nVoo:");
-        System.out.println(voo.consultarInformacoes());
-        System.out.println("Status: " + voo.getStatus());
+        for (Reserva reserva : reservas) {
+            System.out.println("Codigo: " + reserva.getCodigo());
+            System.out.println("Passageiro: "
+                    + reserva.getPassageiro().getNome());
+            System.out.println("Voo: "
+                    + reserva.getVoo().getCodigo());
+            System.out.println("Status: "
+                    + reserva.consultarStatus());
+            System.out.println("----------------------------");
+        }
+    }
 
-        System.out.println("\nReserva:");
-        System.out.println("Status: " + reserva.consultarStatus());
-        reserva.confirmar();
-        System.out.println("Status após confirmação: " + reserva.consultarStatus());
+    private static void confirmarReserva() {
 
-        System.out.println("\nCheck-in:");
-        System.out.println("Status: " + checkIn.consultarStatus());
-        checkIn.realizar();
-        System.out.println("Status após realização: " + checkIn.consultarStatus());
+        System.out.println("\n=== CONFIRMAR RESERVA ===");
 
-        System.out.println("\nCartão de embarque:");
-        cartao.emitir();
-        System.out.println(cartao.consultarDados());
+        System.out.print("Codigo da reserva: ");
+        String codigo = entrada.nextLine();
 
-        System.out.println("\nPortão:");
-        portao.abrirEmbarque();
-        System.out.println(portao.consultarStatus());
+        sistema.confirmarReserva(codigo);
 
-        System.out.println("\n=== TESTE DE POLIMORFISMO ===");
+        System.out.println("Reserva confirmada!");
+    }
+
+    private static void cancelarReserva() {
+
+        System.out.println("\n=== CANCELAR RESERVA ===");
+
+        System.out.print("Codigo da reserva: ");
+        String codigo = entrada.nextLine();
+
+        sistema.cancelarReserva(codigo);
+
+        System.out.println("Reserva cancelada!");
+    }
+
+    private static void excluirPassageiro() {
+
+        System.out.println("\n=== EXCLUIR PASSAGEIRO ===");
+
+        System.out.print("CPF do passageiro: ");
+        String cpf = entrada.nextLine();
+
+        sistema.excluirPassageiro(cpf);
+
+        System.out.println("Passageiro excluido!");
+    }
+
+    private static void excluirVoo() {
+
+        System.out.println("\n=== EXCLUIR VOO ===");
+
+        System.out.print("Codigo do voo: ");
+        String codigo = entrada.nextLine();
+
+        sistema.excluirVoo(codigo);
+
+        System.out.println("Voo excluido!");
+    }
+
+    private static void excluirReserva() {
+
+        System.out.println("\n=== EXCLUIR RESERVA ===");
+
+        System.out.print("Codigo da reserva: ");
+        String codigo = entrada.nextLine();
+
+        sistema.excluirReserva(codigo);
+
+        System.out.println("Reserva excluida!");
+    }
+
+    private static void demonstrarPOO() {
+
+        System.out.println("\n=== DEMONSTRACAO DE POO ===");
 
         Pessoa pessoa1 = new Passageiro(
-                "João",
+                "Joao",
                 "22233344455",
                 "joao@email.com",
                 "81966666666",
@@ -150,27 +349,12 @@ public class Principal {
                 "Atendente"
         );
 
+        System.out.println("\nPassageiro:");
         pessoa1.exibirTipo();
+
+        System.out.println("\nFuncionario:");
         pessoa2.exibirTipo();
 
-        System.out.println("\n=== TESTE DE ARQUIVOS ===");
-
-        SistemaAeroporto sistema = new SistemaAeroporto();
-
-        sistema.cadastrarPassageiro(passageiro);
-        sistema.cadastrarVoo(voo);
-        sistema.cadastrarReserva(reserva);
-
-        ArquivoReservas arquivo = new ArquivoReservas();
-
-        arquivo.salvarReservas(sistema.listarReservas());
-
-        System.out.println("Reservas salvas no arquivo.");
-
-        System.out.println("\nReservas lidas do arquivo:");
-
-        for (String linha : arquivo.lerReservas()) {
-            System.out.println(linha);
-        }
+        System.out.println("\nPolimorfismo demonstrado com sucesso!");
     }
 }
